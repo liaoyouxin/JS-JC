@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>time</title>
+	<style type="text/css">
+   body{
+    background-color: green;
+  }
+  div{
+    color: #fff;
+    border: 3px solid #fff;
+    width: 343px;
+    height: 80px;
+    position: absolute;
+    left: 530px;
+    top: 530px;
+    font-size: 80px;
+    line-height: 80px;
+    border-radius: 10px 10px;
+    z-index: 0;
+    transition: 2s;
+    cursor: pointer;
+  }
+  a{
+    text-decoration: none;
+    color: #fff;
+  }
+  
+</style>
+</head>
+<body>
+  <div id="hour" title="返回首页"><em>00</em>:<em>00</em>:<em>00</em></div>
+  <canvas id="canvas1" width="1300" height="600">你的浏览器不支持H5</canvas>
+
+  <script type="text/javascript">
+    var h=document.getElementById("hour");
+    var canvas1=document.getElementById('canvas1');
+    var context1=canvas1.getContext("2d");
+    function drawHour(){
+      context1.clearRect(0,0,1300,1300);
+      var date=new Date();
+      var m=date.getSeconds();
+      var j=date.getMinutes()+m/60;
+      var k=date.getHours()+j/60;
+      var hour=date.getHours();
+      var min=date.getMinutes()
+      if (hour<10) {
+        document.getElementById("hour").getElementsByTagName('em')[0].innerHTML="0"+hour;
+      }else{
+        document.getElementById("hour").getElementsByTagName('em')[0].innerHTML=hour;
+      }
+      if (min<10) {
+        document.getElementById("hour").getElementsByTagName('em')[1].innerHTML="0"+min;
+      }else{
+       document.getElementById("hour").getElementsByTagName('em')[1].innerHTML=min;
+     }
+     if (m<10) {
+      document.getElementById("hour").getElementsByTagName('em')[2].innerHTML="0"+m;
+    }else{
+      document.getElementById("hour").getElementsByTagName('em')[2].innerHTML=m;
+    }
+
+      //画表盘
+		context1.beginPath();   //开始
+		context1.arc(700,300,200,0,Math.PI*2,false);   //定义圆心位置，大小，逆时针
+		context1.strokeStyle="#fff";           //边的样式
+		context1.lineWidth=10;                 //边的宽度
+	  context1.stroke();                     //画
+	  context1.closePath();                  //结束
+    context1.beginPath();        //开始
+		context1.arc(700,300,205,0,Math.PI*2,false);   //定义圆心位置，大小，逆时针
+		context1.strokeStyle="#000";           //边的样式
+		context1.lineWidth=10;                 //边的宽度
+	  context1.stroke();                     //画
+	  context1.closePath();                  //结束
+
+
+	    //画表心
+    context1.beginPath();
+    context1.strokeStyle="#fff";
+    context1.arc(700,300,6,0,360,false);   //设置大小  圆心位置
+    context1.lineWidth=1;
+    context1.fill();
+    context1.closePath();
+
+        //画时刻度
+        for(var i=0;i<12;i++){
+          context1.save();
+          context1.strokeStyle="#fff";
+          context1.lineWidth=7;
+          context1.translate(700,300);
+          context1.rotate(30*i*Math.PI/180);
+          context1.beginPath();
+          context1.moveTo(0,-180);
+          context1.lineTo(0,-200);
+          context1.closePath();
+          context1.stroke();
+          context1.restore(); 
+        }
+       //画数字
+       context1.save();
+       context1.fillStyle="#fff";
+       context1.translate(700,300);
+       context1.font="40px 行楷";
+       context1.beginPath();
+       context1.fillText(1,65,-135);
+       context1.fillText(2,135,-70);
+       context1.fillText(3,160,15);
+       context1.fillText(4,135,95);
+       context1.fillText(5,75,155);
+       context1.fillText(6,-10,178);
+       context1.fillText(7,-95,153);
+       context1.fillText(8,-152,95);
+       context1.fillText(9,-175,15);
+       context1.fillText(10,-155,-65);
+       context1.fillText(11,-105,-123);
+       context1.fillText(12,-20,-150);
+       context1.closePath();
+       context1.restore();
+       //画分刻度
+       for(var i=0;i<60;i++){
+       	context1.save();
+       	context1.strokeStyle="#fff";
+       	context1.lineWidth=2;
+       	context1.translate(700,300);
+       	context1.rotate(6*i*Math.PI/180);
+       	context1.beginPath();
+       	context1.moveTo(0,-185);
+       	context1.lineTo(0,-205);
+       	context1.closePath();
+       	context1.stroke();
+       	context1.restore();
+       }
+
+       //画秒钟
+       context1.save();
+       context1.strokeStyle="#000";
+       context1.fillStyle="#000";
+       context1.lineWidth=2;
+       context1.translate(700,300);
+       context1.rotate(6*m*Math.PI/180);
+       context1.beginPath();
+       context1.arc(0,-166,3,400,360,false);
+       context1.fill();
+       context1.closePath();
+       context1.beginPath();
+       context1.moveTo(0,12);
+       context1.lineTo(0,-166);
+       context1.closePath();
+       context1.stroke();
+       context1.restore();
+
+       //画分钟
+       context1.save();
+       context1.strokeStyle="#000";
+       context1.lineWidth=4;
+       context1.translate(700,300);
+       context1.rotate(6*j*Math.PI/180);
+       context1.beginPath();
+       context1.moveTo(0,12);
+       context1.lineTo(0,-166);
+       context1.closePath();
+       context1.stroke();
+       context1.restore();
+
+       //画时针
+       context1.save();
+       context1.strokeStyle="#000";
+       context1.lineWidth=8;
+       context1.translate(700,300);
+       context1.rotate(30*k*Math.PI/180);
+       context1.beginPath();
+       context1.moveTo(0,12);
+       context1.lineTo(0,-135);
+       context1.closePath();
+       context1.stroke();
+       context1.restore();
+     }
+     setInterval("drawHour()",1000);
+     function GetRandomNum(Min,Max){   
+      var Range = Max - Min;   
+      var Rand = Math.random();   
+      return(Min + Math.round(Rand * Range));   
+    }   
+    var array=["green","pink","red","yellow","black"];
+    setInterval(function(){
+      var num=GetRandomNum(0,5);
+      document.getElementById("hour").style.backgroundColor=array[num];
+    },2000)
+    h.onmousedown=function(){
+      window.location.href="http://123.207.146.42";
+    }  
+
+  </script>
+</body>
+</html>
